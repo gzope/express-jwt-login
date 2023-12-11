@@ -11,12 +11,13 @@ const getTokenRefresh = (req, res) => {
         process.env.REFRESH_TOKEN_SECRET,
         (err, decoded) => {
             if (err) {console.log(err); return res.status(401).send('Invalid refresh token');} //invalid token
-            req.user = decoded.username;
+            req.user = decoded.user;
             console.log('token verified');
-            
+
             var accesstoken = jwt.sign( { user: req.user}, 
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '30s' });
+
             res.status(200).json({accesstoken});  
         }
     );
